@@ -1,0 +1,12 @@
+{
+  "name": "payout-management",
+  "version": "0.0.1",
+  "scripts": {
+    "install-all": "cd web && npm install && cd.. && cd api && npm install",
+    "start": "concurrently --kill-others \"cd web && npm start\" \"cd api && npm run dev\"",
+    "test": "concurrently --kill-others \"cd web && npm run test\" \"cd api && npm run test\""
+  },
+  "devDependencies": {
+    "concurrently": "^7.6.0"
+  }
+}
