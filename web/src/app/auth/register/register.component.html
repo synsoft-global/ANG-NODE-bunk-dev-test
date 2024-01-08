@@ -1,0 +1,59 @@
+<div class="registerdiv">
+
+    <mat-card class="form-card">
+        <mat-card-content>
+            <h2>Sign Up</h2>
+            <form [formGroup]="registerForm">
+                <div class="form-row">
+                    <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput placeholder="Name" formControlName="userName" name="userName" required>
+                        <mat-error
+                            *ngIf="registerForm.controls['userName']?.errors?.['required']">{{registrationFormError.username.required}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                        <mat-label>Email</mat-label>
+                        <input matInput placeholder="Email" formControlName="email" name="email" required>
+                        <mat-error
+                            *ngIf="registerForm.controls['email'].hasError('required')">{{registrationFormError.email.required}}</mat-error>
+                        <mat-error
+                            *ngIf="registerForm.controls['email']?.errors?.['invalidEmailAddress']">{{registrationFormError.email.invalid}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                        <mat-label>Phone </mat-label>
+                        <input matInput placeholder="Phone" formControlName="phone" name="phone" required>
+                        <mat-error
+                            *ngIf="registerForm.controls['phone']?.errors?.['required']">{{registrationFormError.phone.required}}</mat-error>
+                        <mat-error
+                            *ngIf="registerForm.controls['phone']?.errors?.['invalidPhoneNumber']">{{registrationFormError.phone.invalid}}</mat-error>
+
+                    </mat-form-field>
+
+                    <mat-form-field floatLabel="always" class="example-full-width forgot-password" appearance="outline">
+                        <mat-label>Passowrd</mat-label>
+                        <input matInput placeholder="Password" name="password"
+                            [type]="showPassword? 'text' : 'password'" autocomplete="new-password"
+                            formControlName="password" required>
+                        <mat-icon matSuffix
+                            (click)="toggleVisibility()">{{showPassword?'visibility_off':'visibility'}}</mat-icon>
+
+                        <mat-error
+                            *ngIf="registerForm.controls['password']?.errors?.['required']">{{registrationFormError.password.required}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="btn_div">
+                    <button type="submit" class="button  secondary" mat-raised-button (click)="onSubmit()">Sign In
+                    </button>
+                </div>
+
+            </form>
+            <p class="form-text">
+                Already have an account?
+                <a target="_top" [routerLink]="['/login']">Login!</a>
+            </p>
+
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-// import { MatDialog } from '@angular/material/dialog';
-// import { AddDialogComponent } from './dialogs/add/add.dialog.component';
+import { LocaldataService } from './services/localdata/localdata.service';
+import { Event, NavigationEnd, Router } from '@angular/router';
+import { CommonService } from './services/common/common.service';
+
 
 type Payout = {
   name: string;
@@ -13,9 +15,41 @@ type Payout = {
 })
 export class AppComponent {
   title = 'payout-management';
-
+  isLogin: boolean = false;
+  subscriptions: any[] = [];
+  isLoading: any = false;
   constructor(
-    // public dialog: MatDialog,
-    ) {}
-  
+    private _commonService: CommonService,
+    private _localService: LocaldataService,
+    private router: Router
+  ) { }
+
+
+  ngOnInit() {
+    this.subscriptions.push(this.router.events.subscribe((evt) => { this.onRouteChanged(evt); }));
+  }
+
+  ngAfterViewInit() {
+    // Update the boolean property here
+    this._commonService.isLoading.subscribe((value) => {
+      this.isLoading = value;
+
+    })
+  }
+
+
+  onRouteChanged(e: Event) {
+    if (!(e instanceof NavigationEnd)) {
+      return;
+    } else if (!this._localService.get('userToken')) {
+
+      this.isLogin = false;
+      // this.router.navigate(['/login'])
+    } else {
+      this.isLogin = true;
+
+    }
+  }
+
+
 }

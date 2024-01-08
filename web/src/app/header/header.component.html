@@ -1,0 +1,13 @@
+<mat-toolbar>
+    <span>PayManagement</span>
+    <span class="example-spacer"></span>
+    <span class="menuContainer" [matMenuTriggerFor]="menu">
+        <ngx-avatars name="{{name}}" bgColor="#7f8c8d" fgColor="#fff" size="40"></ngx-avatars>
+        <mat-menu #menu="matMenu">
+            <!-- <button mat-menu-item routerLink=""><mat-icon>person_outline</mat-icon>My
+                Profile</button> -->
+            <button mat-menu-item (click)="logout()"><mat-icon>power_settings_new</mat-icon>Logout</button>
+        </mat-menu>
+    </span>
+
+</mat-toolbar>

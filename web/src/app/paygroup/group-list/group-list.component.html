@@ -1,0 +1,37 @@
+<div>
+
+    <div class="main_container">
+        <mat-card class="list-card">
+            <mat-card-content>
+                <div class="mainlist_div" *ngFor="let pay of payGroup ">
+                    <mat-card class="mainlist_card" (click)="handleCardClick(pay._id)">
+                        <p>{{pay.title}}</p>
+                        <p>{{pay.description}}</p>
+                    </mat-card>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+
+    </div>
+
+    <section>
+        <div *ngIf="!showAdd" class="example-button" align="end" [ngStyle]="{'margin': ' 0px 10px'}">
+            <button mat-fab class="button_fab" aria-label="Example icon button with a home icon" (click)="toggleadd()">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div *ngIf="showAdd" class="example-button-row">
+            <button mat-mini-fab class="button_fab" [ngStyle]="{'margin': '0px 18px 15px'}" aria-label=" Example icon button with
+            a home icon" matTooltip="Join a paycount" matTooltipPosition="left" (click)="openDialog(1)">
+                <mat-icon>link</mat-icon>
+            </button>
+
+            <button mat-fab class="button_fab" [ngStyle]="{'margin': ' 0px 10px'}"
+                aria-label="Example icon button with a home icon" matTooltip=" New paycount" matTooltipPosition="left"
+                (click)="openDialog(2)">
+                <mat-icon>subject</mat-icon>
+            </button>
+        </div>
+    </section>
+</div>
