@@ -5,9 +5,12 @@ import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import compression from 'compression';
 import morgan from 'morgan';
-import rateLimit from 'express-rate-limit';
+// import rateLimit from 'express-rate-limit';
 import path from 'path';
 import connectDB from './dbConnection/db';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger';
+
 
 const app: Express = express();
 
@@ -18,11 +21,11 @@ dotenv.config();
 app.use(cors({ origin: '*', credentials: true }));
 
 // Set up rate limiter: limit each IP to 100 requests per 15 minutes
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests
-});
-app.use(limiter);
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // limit each IP to 100 requests
+// });
+// app.use(limiter);
 
 // Set up Morgan for logging
 app.use(morgan('dev'));
@@ -32,6 +35,7 @@ app.use('/uploads', express.static(path.join(__dirname, './uploads')));
 
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Set up views directory for EJS templates
 app.set('views', path.join(__dirname, 'views'));
@@ -62,5 +66,6 @@ app.get('/', (_req: Request, res: Response) => {
 // Include routes from the router
 import router from './routes/index';
 app.use('/', router);
+
 
 export default app;

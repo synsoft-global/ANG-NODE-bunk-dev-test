@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { LocaldataService } from './services/localdata/localdata.service';
 import { Event, NavigationEnd, Router } from '@angular/router';
 import { CommonService } from './services/common/common.service';
@@ -21,20 +21,25 @@ export class AppComponent {
   constructor(
     private _commonService: CommonService,
     private _localService: LocaldataService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) { }
 
 
   ngOnInit() {
     this.subscriptions.push(this.router.events.subscribe((evt) => { this.onRouteChanged(evt); }));
+
   }
 
   ngAfterViewInit() {
-    // Update the boolean property here
-    this._commonService.isLoading.subscribe((value) => {
-      this.isLoading = value;
+    setTimeout(() => {
+      this._commonService.isLoading.subscribe((value) => {
+        this.isLoading = value;
 
-    })
+      })
+    }, 0);
+    this.cdr.detectChanges();
+
   }
 
 
@@ -42,7 +47,6 @@ export class AppComponent {
     if (!(e instanceof NavigationEnd)) {
       return;
     } else if (!this._localService.get('userToken')) {
-
       this.isLogin = false;
       // this.router.navigate(['/login'])
     } else {
@@ -52,4 +56,8 @@ export class AppComponent {
   }
 
 
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((s) => s.unsubscribe());
+  }
 }

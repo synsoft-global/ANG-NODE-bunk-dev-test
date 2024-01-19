@@ -7,7 +7,8 @@ import { MaterialModule } from '../material.module';
 import { PaygroupComponent } from './paygroup.component';
 import { ExistingGroupComponent } from './existing-group/existing-group.component';
 import { AddGroupComponent } from './add-group/add-group.component';
-
+import { JoinGroupComponent } from './join-group/join-group.component';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 
 @NgModule({
@@ -15,14 +16,16 @@ import { AddGroupComponent } from './add-group/add-group.component';
     GroupListComponent,
     PaygroupComponent,
     ExistingGroupComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    JoinGroupComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    PaygroupRoutingModule
+    PaygroupRoutingModule,
+    InfiniteScrollModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

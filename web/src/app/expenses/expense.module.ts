@@ -1,17 +1,18 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ExpenseRoutingModule } from './expense-routing.module';
-import { ExpenseDetailComponent } from './expense-detail/expense-detail.component';
+import { ExpenseListComponent } from './expense-list/expense-list.component';
 import { MaterialModule } from '../material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ClipboardModule } from '@angular/cdk/clipboard';
-import { AddExpenseComponent } from './add-expense/add-expense.component';
+import { AddEditExpenseComponent } from './add-edit-expense/add-edit-expense.component';
 import { ExpenseComponent } from './expense.component';
+import { InfiniteScrollModule } from "ngx-infinite-scroll";
 
 @NgModule({
   declarations: [
-    ExpenseDetailComponent,
-    AddExpenseComponent,
+    ExpenseListComponent,
+    AddEditExpenseComponent,
     ExpenseComponent
   ],
   imports: [
@@ -20,7 +21,8 @@ import { ExpenseComponent } from './expense.component';
     ReactiveFormsModule,
     MaterialModule,
     ExpenseRoutingModule,
-    ClipboardModule
+    ClipboardModule,
+    InfiniteScrollModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

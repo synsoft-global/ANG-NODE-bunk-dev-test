@@ -38,16 +38,15 @@ export class RegisterComponent {
   }
 
   onSubmit() {
-
     if (this.registerForm.valid) {
       let data = this.registerForm.value;
       this._authService.register(data).subscribe({
-        next: (res) => {
-
-          this._commonService.showSnackbar('Registes Successfully', true, this.durationInSeconds);
+        next: (res: any) => {
+          this._commonService.showSnackbar(res.message, true, this.durationInSeconds);
           this.router.navigate(['/login'])
         }, error: (err) => {
-          this._commonService.showSnackbar(err.error.error, false, this.durationInSeconds)
+          console.log('err: ', err);
+          this._commonService.showSnackbar(err.error.errors ? err.error.errors : "Something went wrong", false, this.durationInSeconds)
         }
       })
     }

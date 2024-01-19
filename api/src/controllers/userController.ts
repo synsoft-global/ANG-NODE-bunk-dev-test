@@ -4,9 +4,8 @@ import User from '../models/user';
 import bcrypt from 'bcrypt';
 import { generateToken } from '../utils/auth';
 import message from '../message'
-import { handleGlobalError } from '../utils/responder';
-// import sendMail from '../helper/email';
-// import { sendMessage } from '../helper/sendMessage';
+import { sendErrorResponse, sendSuccessResponse } from '../utils/responder';
+import { findByEmail } from '../services/userService';
 
 
 /**
@@ -16,7 +15,7 @@ import { handleGlobalError } from '../utils/responder';
  * @param req Request object
  * @param res Response object
  */
-const userRegister = async (req: Request, res: Response) => {
+const registerUser = async (req: Request, res: Response) => {
     try {
         // Validate request body
         const errors = validationResult(req);
@@ -25,10 +24,9 @@ const userRegister = async (req: Request, res: Response) => {
         }
 
         const { userName, email, password, phone } = req.body;
-
         // Check if user with the same email already exists
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
+        const existingUser1 = await findByEmail(email)
+        if (existingUser1) {
             throw { status: 400, message: message.USER_ALREADY_EXIST };
         }
 
@@ -38,20 +36,10 @@ const userRegister = async (req: Request, res: Response) => {
         // Create user
         const user = new User({ userName, email, password: hashedPassword, phone });
         await user.save();
-        //send email 
-        // if (req.body.phone) {
-        //     await sendMessage('hello from server side trewilo test', req.body.phone)
-        // } else {
+        sendSuccessResponse(res, message.OK, message.USER_CREATED_SUCC, user);
 
-        //     await sendMail()
-        // }
-        res.status(201).send({
-            status: message.OK,
-            message: message.USER_CREATED_SUCC,
-            data: user,
-        });
     } catch (error: any) {
-        handleGlobalError(error, res, message);
+        sendErrorResponse(error, res, message);
     }
 };
 
@@ -73,7 +61,7 @@ const userLogin = async (req: Request, res: Response) => {
         const { email, password } = req.body;
 
         // Check if the user exists
-        const user = await User.findOne({ email });
+        const user = await findByEmail(email);
         if (!user) {
             throw { status: 400, message: message.EMAIL_NOT_REGISTER };
         }
@@ -85,7 +73,7 @@ const userLogin = async (req: Request, res: Response) => {
         }
 
         // Generate and send the JWT token
-        const token = generateToken(user.id);
+        const token = generateToken(user.id, user.userName, user.email);
         res.status(200).send({
             status: message.OK,
             message: message.LOGIN_SUCC,
@@ -93,13 +81,10 @@ const userLogin = async (req: Request, res: Response) => {
             token: token
         });
     } catch (error: any) {
-        if (error?.status && error.message) {
-            res.status(error.status).json({ status: message.Failed, error: error.message });
-        } else {
-            res.status(500).json({ status: message.Failed, error: message.INTERNAL_SERVER_ERROR });
-        }
+        sendErrorResponse(error, res, message);
     }
 };
 
 
-export default { userRegister, userLogin };
+
+export default { registerUser, userLogin };

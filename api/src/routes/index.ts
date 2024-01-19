@@ -8,6 +8,7 @@ import group from './groupRoute';
 import common from './commonRoute';
 import expence from './expencesRoute';
 
+
 router.use('/', common);
 router.use('/user', user);
 router.use('/category', category);

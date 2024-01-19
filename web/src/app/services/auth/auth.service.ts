@@ -6,6 +6,7 @@ import { CommonService } from '../common/common.service';
 import { Observable, catchError, finalize, throwError } from 'rxjs';
 import { HandleError, HttpErrorHandlerService } from '../error-handler/http-error-handler.service';
 import { LocaldataService } from '../localdata/localdata.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -48,8 +49,8 @@ export class AuthService {
 
       ),
       finalize(() => {
-        this._commonService.isLoading.next(false);
         setTimeout(() => {
+          this._commonService.isLoading.next(false);
         }, 500)
       })
     );
@@ -63,10 +64,9 @@ export class AuthService {
     return this.http.post(Configuration.apiURL + 'user/signup', data).pipe(
       catchError(this.handleError('register')),
       finalize(() => {
-        this._commonService.isLoading.next(false);
         // Set isLoading to false after API call
-        setTimeout(() => {
-        }, 500)
+        this._commonService.isLoading.next(false);
+
       })
     )
   }

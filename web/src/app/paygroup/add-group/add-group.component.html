@@ -1,5 +1,5 @@
 <div class="addformdiv">
-    <h2 mat-dialog-title>New Paygroup
+    <h2 mat-dialog-title>{{groupId ? 'Edit Paygroup':'New Paygroup'}}
         <button mat-icon-button class="close-button" [mat-dialog-close]="true">
             <mat-icon class="close-icon">close</mat-icon>
         </button>
@@ -44,33 +44,35 @@
         </div>
         <div class="chip_div">
             <p>Participants</p>
-            <div *ngFor="let name of participantsList ; let i = index">
+            <div *ngIf="participantsList && participantsList.length > 0">
+                <div *ngFor="let name of participantsList ; let i = index">
 
-                <p style="cursor: pointer;" (click)="editItem(i)"> {{ name }}
-                    <button matSuffix *ngIf="i > 0" matSuffix mat-icon-button (click)="removeItem(i)">
-                        <mat-icon>clear</mat-icon>
-                    </button>
-                </p>
-                <div *ngIf="edit && i === 0">
-                    <mat-form-field class="example-full-width">
-                        <input matInput formControlName="participants">
-                        <button matSuffix mat-raised-button color="primary" (click)="saveEdit()">Save</button>
-                    </mat-form-field>
+                    <p style="cursor: pointer;" (click)="editItem(i)"> {{groupId ? name.name : name }}
+                        <button matSuffix *ngIf="i > 0" matSuffix mat-icon-button (click)="removeItem(i)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </p>
+                    <div *ngIf="edit && i === 0">
+                        <mat-form-field class="example-full-width">
+                            <input matInput formControlName="participants">
+                            <button matSuffix mat-raised-button color="primary" (click)="saveEdit()">Save</button>
+                        </mat-form-field>
+                    </div>
+
                 </div>
-
-
             </div>
             <mat-form-field class="example-full-width">
                 <input matInput [placeholder]="participantsList.length > 0 ? 'Other name' : 'My name'"
-                    formControlName="participants">
+                    formControlName="participants" (keydown.enter)="onEnter($event)">
                 <button matSuffix mat-raised-button color="primary" (click)="addItem()">Add </button>
-                <mat-error
-                    *ngIf="addForm.controls['participants'].hasError('required')">{{addFormError.participent.required}}</mat-error>
+                <!-- <mat-error
+                    *ngIf="addForm.controls['participants'].hasError('required')">{{addFormError.participent.required}}</mat-error> -->
             </mat-form-field>
 
         </div>
         <div class="btn_div">
-            <button type="submit" class="button  secondary" mat-raised-button (click)="onSubmit()">ADD
+            <button type="submit" class="button  secondary" mat-raised-button (click)="onSubmit()">{{groupId ? 'Update'
+                :'Submit'}}
             </button>
         </div>
     </form>

@@ -1,4 +1,4 @@
-<div *ngIf="isLoading" class="loader-container">
+<div [hidden]="!isLoading" class="loader-container">
     <mat-spinner></mat-spinner>
 </div>
 <div class="mainrow">

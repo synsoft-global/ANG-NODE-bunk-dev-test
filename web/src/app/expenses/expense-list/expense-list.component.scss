@@ -1,0 +1,125 @@
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.main_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    .list-card {
+        height: 100%;
+        max-width: 100%;
+        width: 50%;
+
+        .name_div {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .mainlist_div {
+            padding: 10px 5px;
+        }
+    }
+}
+
+.mainlist_card {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mainlist_card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    background: #b7b2b28a;
+
+}
+
+.empty_div {
+    text-align: center;
+    margin-top: 20px;
+}
+
+
+.balance_list {
+    width: 100%;
+
+    .negative-balance :not(span) {
+        margin-left: 5px;
+        color: #fff;
+        background-color: #c55f5f;
+        float: right;
+    }
+
+    .positive-balance :not(span) {
+        color: #fff;
+        background-color: green;
+        float: left;
+        margin-right: 5px;
+    }
+
+    span {
+        margin: 10px;
+    }
+
+}
+
+
+//********************* Footer*********************//
+
+.footer_mainContainer {
+    background: #070101;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.07);
+    height: 40px;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    bottom: 10px;
+    display: flex;
+
+    .footer.left_sideConatiner {
+        min-width: 100%;
+        display: flex;
+        color: #b1aeae;
+        justify-content: space-between;
+
+        .example-button {
+            margin: -29px 10px
+        }
+    }
+}
+
+//*********************Template css *********************//
+form {
+    max-width: 100%;
+    width: 600px;
+    margin: 0 auto;
+
+    .example-full-width {
+        width: 100%;
+    }
+}
+
+.form-row {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.cls-span {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+
+    .close-button {
+        margin: -7px 10px;
+    }
+}

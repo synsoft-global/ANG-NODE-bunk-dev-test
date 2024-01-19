@@ -1,33 +1,31 @@
 import { body, param } from 'express-validator';
+import mongoose from 'mongoose';
 
-export const groupValidator = [
-    body('title').trim().notEmpty().withMessage('Title is required'),
-    body('description').optional().trim(),
-    body('currencyId').isMongoId().withMessage('Invalid currencyId'),
-    body('categoryId').isMongoId().withMessage('Invalid categoryId'),
-    body('participants').isArray().withMessage('Participants must be an array'),
-    // Add more validation rules as needed
+export const isValidObjectId = (value: string | number | mongoose.mongo.BSON.ObjectId | mongoose.mongo.BSON.ObjectIdLike | Uint8Array) => mongoose.Types.ObjectId.isValid(value);
+
+export const groupValidtor = [
+    body('title').notEmpty().withMessage('title  cannot be empty'),
+    body('categoryId')
+        .notEmpty().withMessage('categoryId cannot be empty')
+        .custom(value => isValidObjectId(value)).withMessage('Invalid categoryId format'),
+    body('currencyId')
+        .notEmpty().withMessage('currencyId cannot be empty')
+        .custom(value => isValidObjectId(value)).withMessage('Invalid currencyId format')
+];
+
+
+export const joinGroupValidtor = [
+    param('groupId').notEmpty().withMessage('groupId  cannot be empty').custom(value => isValidObjectId(value)).withMessage('Invalid groupId format'),
+    body('userName').notEmpty().withMessage('userName  cannot be empty'),
+    body('userId')
+        .notEmpty().withMessage('userId cannot be empty')
+        .custom(value => isValidObjectId(value)).withMessage('Invalid userId format'),
 
 ];
 
-export const addExpenceValidator = [
-    body('title').notEmpty().withMessage('Title is required'),
-    body('amount').isNumeric().withMessage('Amount must be a number'),
-    body('users').optional().isMongoId().withMessage('Invalid user ID'),
-    body('paidBy').optional().isMongoId().withMessage('Invalid paidBy ID'),
-    body('groupId').isMongoId().withMessage('Invalid group ID'),
-    body('image').optional().isString().withMessage('Image must be a string'),
-    body('date').optional().isISO8601().toDate().withMessage('Invalid date format'),
+
+export const commonpValidtorForId = [
+    param('id').notEmpty().withMessage('id  cannot be empty').custom(value => isValidObjectId(value)).withMessage('Invalid id format'),
 ];
 
-export const updateExpenceValidator = [
-    param('expenceId').notEmpty().isMongoId().withMessage('Invalid expense ID'), // Assuming you are using MongoDB ObjectId
-    body('title').optional().withMessage('Title is required'),
-    body('amount').optional().isNumeric().withMessage('Amount must be a number'),
-    body('users').optional().isMongoId().withMessage('Invalid user ID'),
-    body('paidBy').optional().isMongoId().withMessage('Invalid paidBy ID'),
-    body('groupId').isMongoId().withMessage('Invalid group ID'),
-    body('image').optional().isString().withMessage('Image must be a string'),
-    body('date').optional().isISO8601().toDate().withMessage('Invalid date format'),
-];
 

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { BehaviorSubject } from 'rxjs';
-import { ToasterComponent } from 'src/app/helper/toaster/toaster.component';
-import { AddGroupComponent } from 'src/app/paygroup/add-group/add-group.component';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { ToasterComponent } from 'src/app/components/helper/toaster/toaster.component';
+import { AddGroupComponent } from 'src/app/components/paygroup/add-group/add-group.component';
+import { LocaldataService } from '../localdata/localdata.service';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -13,18 +15,32 @@ export class CommonService {
 
   public isLoading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar) { }
 
 
-  openDialog(data: any) {
-    const dialogRef = this.dialog.open(data);
+  constructor(public dialog: MatDialog, private _snackBar: MatSnackBar,
+    private _localService: LocaldataService,
+    private router: Router) { }
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+  logout() {
+    this.closeDialog();
+    this._localService.del('userToken');
+    this._localService.del('userData');
+    this.router.navigate(['/login']);
+  }
+
+  openDialog(component: any, backdrop: boolean, dialogData: any) {
+    const dialogRef = this.dialog.open(component, {
+      data: dialogData,
+      hasBackdrop: backdrop,
     });
+
+    return dialogRef.afterClosed();
   }
 
 
+  closeDialog() {
+    this.dialog.closeAll();
+  }
   showSnackbar(message: string, isSuccess: boolean, durationInSeconds: number) {
     this._snackBar.openFromComponent(ToasterComponent, {
       duration: durationInSeconds * 1000,

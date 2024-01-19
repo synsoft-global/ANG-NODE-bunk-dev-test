@@ -11,11 +11,6 @@ body {
   // padding: 30px;
 }
 
-html,
-body {
-  height: 100%;
-}
-
 .mat-mdc-card {
   box-shadow: 0px 5px 30px 7px #1258932E !important;
 }
@@ -36,7 +31,7 @@ mat-error {
   margin-top: 70px;
 }
 
-/////////////////////////////////button css start////////////////////////////////
+//*********************Button css *********************//
 .button.secondary {
   color: #fff !important;
   background-color: var(--button-background-color, #615dfa) !important;
@@ -69,7 +64,7 @@ mat-error {
 
 
 
-/////////////////////////////////form css ////////////////////////////////
+//*********************Form css *********************//
 .form-box-title {
   font-size: 1.625rem;
   text-align: center;
@@ -102,7 +97,8 @@ mat-error {
   }
 }
 
-// ///////////////////////////////// Snackbar Css /////////////////////////////////
+//*********************Snackbar css *********************//
+
 .mat_snackbar--success {
   background-color: #FFFFFF;
   text-align: center;
@@ -139,7 +135,7 @@ mat-error {
   padding-right: 0px !important;
 }
 
-/////////////////////////////////loader csss////////////////////////////////////
+//*********************Loader css *********************//
 .mdc-circular-progress__indeterminate-container {
   width: 50px !important;
 }
@@ -177,16 +173,28 @@ mat-error {
   z-index: 99;
 }
 
-///////////////////////checkbox///////////////////////////
-.mdc-list-item__primary-text {
+//*********************CheckBox css *********************//
+
+.balance_item .mdc-list-item__primary-text {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center !important;
+}
+
+.mdc-list-item__primary-text:not(.balance_item .mdc-list-item__primary-text) {
   display: flex !important;
   flex-direction: row;
   justify-content: space-between !important;
 }
 
+
+
 .mat-mdc-list-base {
   width: 90%;
 }
+
+
 
 .mat-mdc-list-option.mat-accent {
   --mdc-checkbox-selected-checkmark-color: #fff;
@@ -194,4 +202,12 @@ mat-error {
   --mdc-checkbox-selected-hover-icon-color: #98b9d9fc;
   --mdc-checkbox-selected-icon-color: #98b9d9fc;
   --mdc-checkbox-selected-pressed-icon-color: #98b9d9fc !important;
+}
+
+.mat-accent .mdc-list-item__end {
+  --mdc-radio-selected-focus-icon-color: #98b9d9fc;
+  --mdc-radio-selected-hover-icon-color: #98b9d9fc;
+  --mdc-radio-selected-icon-color: #98b9d9fc;
+  --mdc-radio-selected-pressed-icon-color: #98b9d9fc;
+
 }

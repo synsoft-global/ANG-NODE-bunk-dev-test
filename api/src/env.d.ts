@@ -11,5 +11,6 @@ declare namespace NodeJS {
     readonly TWILO_FROM: string;
     readonly TWILIO_AUTH_TOKEN: string;
     readonly ACCOUNT_SID: string;
+    readonly FRONTEND_URL: string;
   }
 }

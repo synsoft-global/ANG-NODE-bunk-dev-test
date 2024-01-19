@@ -12,6 +12,7 @@ export class Validator {
         return config[code];
     }
 
+
     static emailValidator(control: AbstractControl) {
         if (control.value && control.value.length > 0) {
             if (control.value.match(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/)) {
@@ -20,21 +21,21 @@ export class Validator {
                 return { invalidEmailAddress: true };
             }
         }
-        // Add a default return value
         return null;
     }
 
+
     static mobileValidator(control: AbstractControl) {
         if (control.value.length > 0) {
-            if (control.value.match(/^(\+\d{1,3}[- ]?)?\d{8,15}$/)) {
+            if (control.value.match(/^\d{10}$/)) {
                 return null;
             } else {
                 return { invalidPhoneNumber: true };
             }
         }
-        // Add a default return value
         return null;
     }
+
 
     static passwordValidator(control: AbstractControl) {
         if (control.value && control.value.length > 0) {
@@ -46,6 +47,7 @@ export class Validator {
         }
         return null;
     }
+
 
     static checkboxValidator(control: AbstractControl) {
         if (control.value && control.value.length > 0) {

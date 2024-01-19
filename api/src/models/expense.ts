@@ -2,7 +2,6 @@ import mongoose, { Schema } from 'mongoose';
 
 const expenseSchema = new Schema(
     {
-
         title: { type: String },
         amount: { type: Number },
         paidBy: { type: Schema.Types.ObjectId, ref: "User" },

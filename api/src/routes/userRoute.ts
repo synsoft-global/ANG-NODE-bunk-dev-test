@@ -5,7 +5,8 @@ import validate from '../validator/validate';
 
 const router = express.Router();
 
-router.post('/signup', signUpValidation, validate, UserController.userRegister);
+
+router.post('/signup', signUpValidation, validate, UserController.registerUser);
 router.post('/login', loginValidation, validate, UserController.userLogin);
 
 

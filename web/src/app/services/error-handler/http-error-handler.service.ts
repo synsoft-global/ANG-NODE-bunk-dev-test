@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-
 import { Observable, of, throwError } from 'rxjs';
-
-import { MessageService } from '../../message.service';
+import { MessageService } from './message.service';
+import { CommonService } from '../common/common.service';
 
 /** Type of the handleError function returned by HttpErrorHandler.createHandleError */
 export type HandleError =
@@ -12,7 +11,8 @@ export type HandleError =
 /** Handles HttpClient errors */
 @Injectable()
 export class HttpErrorHandlerService {
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService,
+    private _commonService: CommonService) { }
 
   /** Create curried handleError function that already knows the service name */
   createHandleError = (serviceName = '') =>
@@ -31,8 +31,11 @@ export class HttpErrorHandlerService {
   handleError<T>(serviceName = '', operation = 'operation', result = {} as T) {
 
     return (error: HttpErrorResponse): Observable<T> => {
-      console.error(error);
+      if (error.status === 401 || 400 || 403) {
+        this._commonService.logout();
+        this._commonService.showSnackbar(error.error.message ? error.error.message : "Something went wrong", false, 1);
 
+      }
       const message = (error.error instanceof ErrorEvent) ?
         error.error.message :
         `server returned code ${error.status} with body "${error.error}"`;

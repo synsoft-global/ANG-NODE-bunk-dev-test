@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { validationResult } from 'express-validator';
 import CategoryModel from '../models/category';
 import message from '../message'
-import { handleGlobalError, sendSuccessResponse } from '../utils/responder';
+import { sendErrorResponse, sendSuccessResponse } from '../utils/responder';
 
 
 /**
@@ -33,7 +33,7 @@ const createCategory = async (req: Request, res: Response) => {
         await category.save();
         sendSuccessResponse(res, message.OK, message.CATEGORY_CREAED_SUCC, category);
     } catch (error: any) {
-        handleGlobalError(error, res, message);
+        sendErrorResponse(error, res, message);
     }
 };
 
@@ -50,7 +50,7 @@ const getCategories = async (_req: Request, res: Response) => {
         const findCategory = await CategoryModel.find();
         sendSuccessResponse(res, message.OK, message.Success, findCategory);
     } catch (error) {
-        res.status(500).json({ status: message.Failed, error: error });
+        sendErrorResponse(error, res, message);
     }
 };
 

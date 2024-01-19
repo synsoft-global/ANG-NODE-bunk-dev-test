@@ -5,6 +5,7 @@ import { PayoutComponent } from '../payout/payout.component';
 import { GroupListComponent } from './group-list/group-list.component';
 import { PaygroupComponent } from './paygroup.component';
 import { AddGroupComponent } from './add-group/add-group.component';
+import { JoinGroupComponent } from './join-group/join-group.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,11 @@ const routes: Routes = [
       {
         path: 'list',
         component: GroupListComponent
+
+      },
+      {
+        path: 'join/:groupId',
+        component: JoinGroupComponent
 
       },
 

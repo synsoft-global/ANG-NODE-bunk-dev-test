@@ -16,6 +16,7 @@ export class LoginComponent {
   showPassword: boolean = false;
   loginFormError = loginFormError;
   durationInSeconds = 1;
+
   constructor(private _fb: FormBuilder,
     private router: Router,
     private _authService: AuthService,
@@ -27,7 +28,6 @@ export class LoginComponent {
       password: [null, [Validators.required, Validator.passwordValidator]],
 
     });
-
   }
 
   ngOnInit() {
@@ -47,7 +47,6 @@ export class LoginComponent {
       let data = this.loginForm.value;
       this._authService.login(data).subscribe({
         next: (res: any) => {
-
           if (res.data) {
             this._commonService.showSnackbar('Login Successfully', true, this.durationInSeconds);
             this._localService.set("userToken", res.token);
@@ -56,10 +55,8 @@ export class LoginComponent {
           } else {
             this._commonService.showSnackbar('Invalid Email', false, this.durationInSeconds)
           }
-
         }, error: (error) => {
-
-          this._commonService.showSnackbar(error.error.error, false, this.durationInSeconds)
+          this._commonService.showSnackbar(error.error.error ? error.error.error : "Something went wrong", false, this.durationInSeconds)
         }
       })
     }

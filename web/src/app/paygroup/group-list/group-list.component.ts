@@ -13,8 +13,12 @@ import { Router } from '@angular/router';
 export class GroupListComponent {
 
   showAdd: boolean = false;
+  durationInSeconds = 1;
   payGroup: any = [];
-  constructor(private _common: CommonService,
+  currentPage = 1;
+  itemsPerPage = 3;
+  totalRecords: number = 0;
+  constructor(private _commonService: CommonService,
     private _payService: PayoutsService,
     private router: Router) {
 
@@ -23,18 +27,28 @@ export class GroupListComponent {
     this.getPaylist();
   }
 
-  handleCardClick(id: any) {
+  openExpense(id: any) {
     this.router.navigate([`/expense/detail/${id}`])
   }
 
+
+  onScroll = () => {
+    if (this.totalRecords >= 5) {
+      this.currentPage++;
+      this.getPaylist();
+    }
+  }
+
+
   getPaylist() {
-    this._payService.getPaygroup().subscribe({
+    let data = { page: this.currentPage, limit: this.itemsPerPage }
+    this._payService.getPaygroup(data).subscribe({
       next: (res: any) => {
-        console.log('res: ', res);
-        this.payGroup = res.data;
+        this.payGroup = [...this.payGroup, ...res.data.data];
+        this.totalRecords = res.data.pagination.totalRecords;
       }, error: (err) => {
         console.log('err: ', err);
-
+        this._commonService.showSnackbar('Something went wrong', true, this.durationInSeconds);
       }
     })
   }
@@ -44,11 +58,19 @@ export class GroupListComponent {
   }
 
   openDialog(id: number) {
+    this.showAdd = false;
     if (id === 1) {
-      this._common.openDialog(ExistingGroupComponent);
+      this._commonService.openDialog(ExistingGroupComponent, true, '');
     }
     else {
-      this._common.openDialog(AddGroupComponent);
+      this._commonService.openDialog(AddGroupComponent, true, '').subscribe(res => {
+        if (res === 'Submitted')
+          this.payGroup = [];
+        this.getPaylist();
+      });;
     }
   }
+
+
+
 }
