@@ -1,0 +1,145 @@
+<div class="main_container">
+    <mat-card class="list-card">
+        <mat-card-header>
+            <button mat-button (click)="back()"><mat-icon>arrow_back</mat-icon></button>
+            <span>
+                <p>{{groupTitle}}</p>
+                <div *ngFor="let participant of groupMember" class="name_div">
+                    <span>{{ participant.name }}</span>
+                </div>
+            </span>
+            <span class="example-spacer"></span>
+            <span class="menuContainer" [matMenuTriggerFor]="menu">
+                <button mat-button><mat-icon>more_vert</mat-icon></button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="openDialog(2)"><mat-icon>edit</mat-icon>
+                        Edit</button>
+                    <button mat-menu-item (click)="openDialog(1)"><mat-icon>share</mat-icon>Share</button>
+                    <button mat-menu-item (click)="deleteGroup(groupId)"><mat-icon>delete</mat-icon>Delete</button>
+                </mat-menu>
+            </span>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="mainlist_div">
+                <mat-tab-group #tabGroup [(selectedIndex)]="selectedTabIndex" animationDuration="0ms">
+                    <mat-tab label="EXPENSES">
+                        <div class="empty_div" *ngIf="totalRecords ==  undefined">
+                            No Expense
+                        </div>
+                        <div class=" search-results" infiniteScroll [infiniteScrollDistance]="2"
+                            [infiniteScrollThrottle]="500" (scrolled)="onScroll()">
+                            <div class="mainlist_div" *ngFor="let expense of expenses">
+                                <mat-card class="mainlist_card" *ngIf="expense.expenseData">
+                                    <p>{{expense.expenseData.title}} <br> paid by {{expense.expenseData
+                                        .paidByUser}}</p>
+                                    <span class="example-spacer"></span>
+                                    <p>{{ expense.expenseData.createdAt | date:'dd/MM/yyyy' }}</p>
+                                    <span class="menuContainer" [matMenuTriggerFor]="menu">
+                                        <button mat-button><mat-icon>more_vert</mat-icon></button>
+                                        <mat-menu #menu="matMenu">
+                                            <button mat-menu-item
+                                                [routerLink]="['/expense/edit' , expense.expenseData._id,groupId]"><mat-icon>edit</mat-icon>
+                                                Edit</button>
+                                            <button mat-menu-item
+                                                (click)="deleteExpense(expense.expenseData._id)"><mat-icon>delete</mat-icon>Delete</button>
+                                        </mat-menu>
+                                    </span>
+                                </mat-card>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="BALANCES">
+
+                        <div class="empty_div" *ngIf="totalBalance === undefined || totalBalance.length === 0">
+                            No Data Found
+                        </div>
+                        <div *ngIf="totalBalance.length > 0" class="mainlist_div">
+                            <mat-list class="balance_list" *ngFor="let balance of totalBalance">
+                                <mat-list-item class="balance_item">
+
+                                    <div
+                                        [ngClass]="{'positive-balance': balance.needToPay >= 0, 'negative-balance': balance.needToPay < 0}">
+                                        <p> {{balance.needToPay | currency: balance.currency}}</p>
+                                        <span>{{ balance.name }}</span>
+                                    </div>
+                                </mat-list-item>
+                                <mat-divider></mat-divider>
+                            </mat-list>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div *ngIf="tabGroup.selectedIndex === 0" class="footer_mainContainer">
+    <div class="footer left_sideConatiner">
+        <div class="footer left_side">
+            <span class="footer_condition">
+                <a class="footer_total">MY TOTAL <br> {{myBalance ? myBalance : 00}}</a>
+            </span>
+        </div>
+
+        <div class="example-button">
+            <button mat-fab class="button_fab" aria-label="Example icon button with a home icon"
+                [routerLink]="['/expense/add/' ,groupId]">
+                <mat-icon>add</mat-icon>
+            </button>
+        </div>
+        <div class="footer right_sideContainer">
+            <span>TOTAL EXPENSES<br>{{groupTotal ? groupTotal : 00}}</span>
+        </div>
+    </div>
+</div>
+
+
+<!-- Dialog box for send Mail -->
+
+<ng-template #shareGroup>
+    <mat-card-header>
+        <button mat-button [mat-dialog-close]="true"><mat-icon>arrow_back</mat-icon></button>
+        <span class="cls-span">
+            <h2>Share Group </h2>
+            <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+                <mat-icon class="close-icon">close</mat-icon>
+            </button>
+        </span>
+    </mat-card-header>
+    <form [formGroup]="shareForm">
+        <mat-card-content>
+            <div class="form-row">
+                <mat-form-field>
+                    <input matInput formControlName="url" readonly>
+                    <button matSuffix mat-button [cdkCopyToClipboard]="shareUrl">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <!-- Multiple chip input -->
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <mat-chip-grid #chipGrid aria-label="Enter keywords" formControlName="emails">
+                        <mat-chip-row *ngFor="let keyword of keywords; trackBy: trackKeyword"
+                            (removed)="removeKeyword(keyword)">
+                            {{keyword}}
+                            <button matChipRemove aria-label="'remove ' + keyword">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
+                    </mat-chip-grid>
+                    <input placeholder="New keyword..." [matChipInputFor]="chipGrid"
+                        (matChipInputTokenEnd)="add($event)" />
+
+                </mat-form-field>
+                <mat-error
+                    *ngIf="shareForm.controls['emails'].hasError('required') && shareForm.controls['emails'].touched">{{loginFormError.email.required}}</mat-error>
+            </div>
+
+        </mat-card-content>
+        <mat-dialog-actions align="center">
+            <button mat-button class="button secondary" (click)="sendEmail()">Send</button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>

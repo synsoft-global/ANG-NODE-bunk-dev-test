@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
-import { PayoutsService } from '../payouts.service';
+import { PayoutsService } from '../services/payout/payouts.service';
 import { Inject } from '@angular/core';
 
 export interface PayoutSchema {
@@ -54,9 +54,11 @@ export class PayoutComponent {
     this.dataSource = newData;
   }
 
-  openDialog(res:any={test:"test"}) {
-    const dialogRef = this.dialog.open(PayoutResponseDialog,{width: '400px',
-    height: 'auto',data:res});
+  openDialog(res: any = { test: "test" }) {
+    const dialogRef = this.dialog.open(PayoutResponseDialog, {
+      width: '400px',
+      height: 'auto', data: res
+    });
 
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog result: ${result}`);
@@ -64,7 +66,7 @@ export class PayoutComponent {
   }
 
   submitData() {
-    this.payoutsService.calculatePayout(this.dataSource, 'payouts').subscribe(res => { 
+    this.payoutsService.calculatePayout(this.dataSource, 'payouts').subscribe(res => {
       console.log(res)
       this.openDialog(res)
     });
@@ -80,12 +82,11 @@ export class PayoutResponseDialog {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
-  
+
   ngOnInit() {
-    // will log the entire data object
-    console.log(this.data)
+
   }
- 
+
 }
 
 

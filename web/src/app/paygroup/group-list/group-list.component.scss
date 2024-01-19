@@ -1,0 +1,64 @@
+.list-card {
+    height: 100%;
+    max-width: 100%;
+    width: 50%;
+}
+
+.mainlist_div {
+    padding: 10px 5px;
+}
+
+:host {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+}
+
+.main_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+
+    .empty_div {
+        text-align: center;
+        margin-top: 20px;
+    }
+}
+
+section {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .example-button {
+        margin: 0px 10px;
+    }
+}
+
+.example-button-row {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .button_fab.link {
+        margin: 0px 18px 15px
+    }
+
+    .button_fab.add {
+        margin: 0px 10px
+    }
+}
+
+.mainlist_card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    background: #b7b2b28a;
+
+}

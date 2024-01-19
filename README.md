@@ -1,6 +1,9 @@
-# Bunk Dev Test - Holiday Expenses Calculator
+# ANG-NODE-bunk-dev-test(Holiday Expenses Calculator)
 
-A code challenge for new developers applying to work at Bunk.
+## Overview
+
+A Holiday Expenses Calculator is a shared list of transactions which lets you and your friends balance your joint expenditure, such as during a shared activity, on a holiday or in a house share.
+Follow the best practices and high development standards for a top-notch project.
 
 ## Challenge
 
@@ -15,65 +18,155 @@ The Bunk team are all going on a work holiday but they need an app to keep a tra
 - E2E tests (ideally with Cypress)
 - Git + Github for version control
 
+## Library Used
 
-## Installation
+- [Node js][https://nodejs.org/en/blog/release/v20.10.0]
+- [Typescript](https://www.typescriptlang.org/)
+- [ESLint](https://eslint.org/)
 
-Run `npm run install-all` in the project root.
+## Features & Functionality in the Project:
 
-This script will kick off `npm install` in both the Express server (`api`) and the Angular application (`web`).
+- Package Management with Yarn
+- Testing with Jest and Supertest
+- Secured HTTP Headers using helmet
+- Logging with Winston
+- Environment Variables using dotenv
+- Compression with gzip
+- Git Hooks with husky and lint-staged
+- Linting and Enforced Code Style using ESLint and Prettier
 
-## Quick Start
+## Getting started
 
-Run `npm run start` from the project root. This script will start both the Express server, and the Angular application.
+To get started with this project, follow these steps:
 
-## Running Tests
+1. Clone repository:
 
-For tests execution Run `npm run test` in the project root.
-
-## API Reference
-
-### Calculate Payouts (`POST /payouts`)
-
-**Endpoint URL**
-`http://localhost:3000/payouts`
-
-**JSON Body Parameters**
-
-`expenses` - array : Specifies the expenses you want to calculate a payout on.
-
-`expenses.name` - string : The name of the person who incurred the expense.
-
-`expenses.amount` - number : The amount of the expense incurred.
-
-**Example Request**
-
-```shell script
-curl --location --request POST 'localhost:3000/payouts' \
---header 'Content-Type: application/json' \
---data-raw '{
-	"expenses": [
-		{ "name": "Adriana", "amount": 5.75 },
-		{ "name": "Adriana", "amount": 5.75 },
-		{ "name": "Bao", "amount": 12 }
-	]
-}'
+```bash
+git https://github.com/synsoft-global/ANG-NODE-bunk-dev-test.git
 ```
 
-**Example Response**
+# then change directory cd api
 
-```json
-{
-  "total": 23.5,
-  "equalShare": 11.75,
-  "payouts": [
-    {
-      "owes": "Adriana",
-      "owed": "Bao",
-      "amount": 0.25
-    }
-  ]
-}
+2. Install dependencies:
+
+```bash
+ npm install --global yarn
 ```
-## Developer Comment
 
-I have completed the test task using Angular and Express, few test cases are also written at both frontend and backend using specified technologies.
+```bash
+  yarn install
+```
+
+# if get error - **_Git hooks_** with husky and lint-staged
+
+use yarn add husky
+
+```bash
+ yarn add husky || yarn  husky
+```
+
+### Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file(change .env.example name to .env)
+
+`NODE_ENV`
+
+`PORT`
+
+`CORS_ORIGIN`
+
+See .env.example for further details
+
+<!-- Run Locally -->
+
+### Run Locally
+
+Start the server in development mode
+
+```bash
+  yarn watch
+```
+
+```bash
+  yarn dev
+```
+
+<!-- Run production  -->
+
+Start the server in production mode
+
+```bash
+  yarn build
+```
+
+```bash
+  yarn start
+```
+
+For insert data into country and category tables
+
+```bash
+  yarn syncdb
+```
+
+<!-- Running Tests -->
+
+### Running Tests
+
+To run tests, run the following command
+
+```bash
+  yarn test
+```
+
+### Linting
+
+```bash
+  # run ESLint
+  yarn lint
+
+  # fix ESLint errors
+  yarn lint:fix
+
+  # run prettier
+  yarn code:check
+
+  # fix prettier errors
+  yarn code:format
+
+  # fix prettier errors in specific file
+  yarn code:format:specific-file <file-name>
+```
+
+## Getting started for frontend
+
+To get started with this project, follow these steps:
+
+1.  then change directory cd web
+
+2.  Install dependencies:
+    npm install
+
+3.  Run Development server
+
+Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+
+## Code scaffolding
+
+Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+
+## Build
+
+Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+
+## Running unit tests
+
+Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+## Running end-to-end tests
+
+Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+
+## Further help
+
+To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.

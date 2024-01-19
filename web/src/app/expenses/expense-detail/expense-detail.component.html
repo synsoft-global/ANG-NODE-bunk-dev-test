@@ -1,0 +1,109 @@
+<div>
+    <div class="main_container">
+        <mat-card class="list-card">
+            <mat-card-header>
+                <button mat-button (click)="back()"><mat-icon>arrow_back</mat-icon></button>
+                <span>
+                    <p>City Trip<br>Alex,test,test2,test3</p>
+                </span>
+                <span class="example-spacer"></span>
+                <span class="menuContainer" [matMenuTriggerFor]="menu">
+                    <button mat-button><mat-icon>more_vert</mat-icon></button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item routerLink=""><mat-icon>edit</mat-icon>
+                            Edit</button>
+                        <button mat-menu-item (click)="openDialog()"><mat-icon>share</mat-icon>Share</button>
+                        <button mat-menu-item><mat-icon>delete</mat-icon>Delete</button>
+                    </mat-menu>
+                </span>
+
+            </mat-card-header>
+            <mat-card-content>
+                <div class="mainlist_div">
+                    <mat-tab-group #tabGroup [(selectedIndex)]="selectedTabIndex" animationDuration="0ms">
+                        <mat-tab label="EXPENSES">
+                            <div class="mainlist_div" *ngFor="let num of [1,2,3,4,5,6,7,8,9,10,11,12] ">
+                                <mat-card class="mainlist_card">
+                                    <p>Hotel <br> paid by me</p>
+                                    <p>{{ 16/01/2024 }}</p>
+
+                                </mat-card>
+                            </div>
+
+                        </mat-tab>
+                        <mat-tab label="BALANCES">BALANCES </mat-tab>
+
+                    </mat-tab-group>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+
+    </div>
+
+    <div *ngIf="tabGroup.selectedIndex === 0" class="footer_mainContainer">
+        <div class="footer left_sideConatiner">
+            <div class="footer left_side">
+                <span class="footer_condition">
+                    <a class="footer_total">MY TOTAL <br> $39.25</a>
+                </span>
+            </div>
+
+            <div class="example-button" [ngStyle]="{'margin': ' -29px 10px'}">
+                <button mat-fab class="button_fab" aria-label="Example icon button with a home icon"
+                    [routerLink]="['/expense/add/' ,id]">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+            <div class="footer right_sideContainer">
+                <span>TOTAL EXPENSES<br>$162.00</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<ng-template #shareGroup>
+    <mat-card-header>
+        <button mat-button [mat-dialog-close]="true"><mat-icon>arrow_back</mat-icon></button>
+        <span>
+            <h2>Share Group</h2>
+        </span>
+    </mat-card-header>
+    <form [formGroup]="shareForm">
+        <mat-card-content>
+            <div class="form-row">
+                <mat-form-field>
+                    <input matInput formControlName="url" readonly>
+                    <button matSuffix mat-button [cdkCopyToClipboard]="shareUrl">
+                        <mat-icon>content_copy</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <!-- Multiple chip input -->
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <mat-chip-grid #chipGrid aria-label="Enter keywords" formControlName="email">
+                        <mat-chip-row *ngFor="let keyword of keywords; trackBy: trackKeyword"
+                            (removed)="removeKeyword(keyword)">
+                            {{keyword}}
+                            <button matChipRemove aria-label="'remove ' + keyword">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-chip-row>
+                    </mat-chip-grid>
+                    <input placeholder="New keyword..." [matChipInputFor]="chipGrid"
+                        (matChipInputTokenEnd)="add($event)" />
+
+                </mat-form-field>
+                <mat-error
+                    *ngIf="shareForm.controls['email'].hasError('required') && shareForm.controls['email'].touched">{{loginFormError.email.required}}</mat-error>
+            </div>
+
+        </mat-card-content>
+        <mat-dialog-actions align="center">
+            <button mat-button class="button secondary" (click)="sendEmail()">Send</button>
+        </mat-dialog-actions>
+    </form>
+</ng-template>

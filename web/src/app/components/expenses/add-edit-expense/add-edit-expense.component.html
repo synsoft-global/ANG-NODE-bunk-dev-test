@@ -1,0 +1,76 @@
+<div class="main_container">
+    <mat-card class="list-card">
+        <mat-card-header>
+            <button mat-button (click)="back()"><mat-icon>arrow_back</mat-icon></button>
+            <span>
+                <h2>{{id ? "Edit Expense" : "New Expense"}}
+                </h2>
+            </span>
+
+        </mat-card-header>
+        <mat-card-content>
+            <form [formGroup]="addExpenseForm">
+                <div class="form-row">
+                    <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                        <mat-label>Title</mat-label>
+                        <input matInput placeholder="title" name="title" formControlName="title" required>
+                        <mat-error
+                            *ngIf="addExpenseForm.controls['title'].hasError('required')">{{expenseFormError.title.required}}</mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                        <mat-label>Amount</mat-label>
+                        <input matInput placeholder="Amount" name="Amount" formControlName="amount" required>
+                        <mat-error
+                            *ngIf="addExpenseForm.controls['amount'].hasError('required')">{{expenseFormError.amount.required}}</mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                        <mat-label>Date</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="paidAt" placeholder="dd/mm/yyyy"
+                            required>
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                            *ngIf="addExpenseForm.controls['paidAt'].hasError('required')">{{expenseFormError.paidAt.required}}</mat-error>
+                    </mat-form-field>
+
+
+                    <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                        <mat-label>Paid By</mat-label>
+                        <mat-select placeholder="select" formControlName="paidBy" name="paidBy">
+                            <mat-option *ngFor="let user of  users ;let i = index" [value]="user.id">
+                                {{user.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="addExpenseForm.controls['paidBy'].hasError('required')">{{expenseFormError.paidBy.required}}</mat-error>
+                    </mat-form-field>
+
+                    <mat-selection-list class="select_list" #userList multiple
+                        (selectionChange)="onSelectionChange($event)" formControlName="users">
+                        <mat-label>For Whom</mat-label>
+                        <mat-list-option *ngFor="let user of users ;let i = index" [value]="user"
+                            [selected]="user.isChecked">{{
+                            user.name}}
+                            <span class="spn_main">{{ user.amount &&
+                                user.isChecked ?
+                                user.amount : 0
+                                }}</span>
+                        </mat-list-option>
+                        <mat-error
+                            *ngIf="submitted && addExpenseForm.controls['users'].hasError('checkAtLeastOne')">{{expenseFormError.users.required}}</mat-error>
+                    </mat-selection-list>
+
+                    <div class=" btn_div">
+                        <button type="submit" class="button  secondary" mat-raised-button (click)="submit()">{{id ?
+                            'Update' :'Save' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+}
+
+.main_div {
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    gap: 13px;
+    align-items: center;
+}

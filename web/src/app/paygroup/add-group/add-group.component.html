@@ -1,0 +1,79 @@
+<div class="addformdiv">
+    <h2 mat-dialog-title>{{groupId ? 'Edit Paygroup':'New Paygroup'}}
+        <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+            <mat-icon class="close-icon">close</mat-icon>
+        </button>
+    </h2>
+
+    <form [formGroup]="addForm">
+        <div class="form-row">
+            <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                <mat-label>Title</mat-label>
+                <input matInput placeholder="title" formControlName="title" name="title" required>
+                <mat-error
+                    *ngIf="addForm.controls['title'].hasError('required')">{{addFormError.title.required}}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                <mat-label>Description</mat-label>
+                <input matInput placeholder="Description" formControlName="description" name="description" required>
+                <mat-error
+                    *ngIf="addForm.controls['description'].hasError('required')">{{addFormError.description.required}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="form-row">
+            <mat-form-field floatLabel="always" class="example-full-width" appearance="outline">
+                <mat-label>Currency</mat-label>
+                <mat-select placeholder="USD" formControlName="currencyId" name="currency">
+                    <mat-option>select </mat-option>
+                    <mat-option *ngFor="let cur of  this.currencyList" [value]="cur._id">
+                        {{cur.currency}}
+                    </mat-option>
+                </mat-select>
+                <mat-error
+                    *ngIf="addForm.controls['currencyId'].hasError('required')">{{addFormError.currency.required}}</mat-error>
+            </mat-form-field>
+        </div>
+        <div class="chip_div">
+            <p>Category</p>
+            <mat-chip-listbox aria-label="Category selection" formControlName="categoryId">
+                <mat-chip-option *ngFor="let c of category" [value]="c._id">{{c.name}}</mat-chip-option>
+            </mat-chip-listbox>
+            <mat-error
+                *ngIf="addForm.controls['categoryId'].hasError('required')  && addForm.controls['categoryId'].touched">{{addFormError.Category.required}}</mat-error>
+        </div>
+        <div class="chip_div">
+            <p>Participants</p>
+            <div *ngIf="participantsList && participantsList.length > 0">
+                <div *ngFor="let name of participantsList ; let i = index">
+
+                    <p style="cursor: pointer;" (click)="editItem(i)"> {{groupId ? name.name : name }}
+                        <button matSuffix *ngIf="i > 0" matSuffix mat-icon-button (click)="removeItem(i)">
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </p>
+                    <div *ngIf="edit && i === 0">
+                        <mat-form-field class="example-full-width">
+                            <input matInput formControlName="participants">
+                            <button matSuffix mat-raised-button color="primary" (click)="saveEdit()">Save</button>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
+            <mat-form-field class="example-full-width">
+                <input matInput [placeholder]="participantsList.length > 0 ? 'Other name' : 'My name'"
+                    formControlName="participants" (keydown.enter)="onEnter($event)">
+                <button matSuffix mat-raised-button color="primary" (click)="addItem()">Add </button>
+                <!-- <mat-error
+                    *ngIf="addForm.controls['participants'].hasError('required')">{{addFormError.participent.required}}</mat-error> -->
+            </mat-form-field>
+
+        </div>
+        <div class="btn_div">
+            <button type="submit" class="button  secondary" mat-raised-button (click)="onSubmit()">{{groupId ? 'Update'
+                :'Submit'}}
+            </button>
+        </div>
+    </form>
+</div>

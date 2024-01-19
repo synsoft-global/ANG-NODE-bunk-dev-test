@@ -1,54 +1,55 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatSortModule } from '@angular/material/sort';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { PayoutComponent,PayoutResponseDialog } from './payout/payout.component';
+import { PayoutComponent, PayoutResponseDialog } from './components/payout-old/payout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatTableModule } from '@angular/material/table';
 import { MatColumnDef } from '@angular/material/table';
-import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { MatCardModule } from '@angular/material/card'
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
 // import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-import { HttpClientModule } from '@angular/common/http';
-
-import { PayoutsService } from './payouts.service';
-import { MessageService } from './message.service';
-import { HttpErrorHandlerService } from './http-error-handler.service'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { MaterialModule } from './material.module';
+import { PayoutsService } from './services/payout/payouts.service';
+import { MessageService } from './services/error-handler/message.service';
+import { HttpErrorHandlerService } from './services/error-handler/http-error-handler.service';
+import { HeaderComponent } from './components/header/header.component';
+import { AppHttpInterceptor } from './services/interceptor/app.http.interceptor';
+import { ToasterComponent } from './components/helper/toaster/toaster.component';
+import { AvatarModule } from 'ngx-avatars';
+import { PageNotFoundComponent } from './components/helper/page-not-found/page-not-found.component';
 @NgModule({
   declarations: [
     AppComponent,
     PayoutComponent,
-    PayoutResponseDialog
+    PayoutResponseDialog,
+    HeaderComponent,
+    ToasterComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    MaterialModule,
     BrowserAnimationsModule,
-    MatTableModule,
-    MatSortModule,
-    MatIconModule,
     FormsModule,
-    MatDialogModule,
-    MatFormFieldModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatInputModule,
-    MatCardModule
+    AvatarModule
+
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true
+
+    },
     PayoutsService,
     MessageService,
     HttpErrorHandlerService,
     MatColumnDef
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

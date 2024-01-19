@@ -1,0 +1,47 @@
+.form-row {
+    display: flex;
+    flex-direction: row;
+    max-width: 100%;
+    margin: 0 auto;
+    gap: 40px;
+}
+
+.addformdiv {
+    display: flex;
+    max-width: 100%;
+    width: 800px;
+    max-height: 100%;
+    height: 500px;
+    text-align: center;
+    flex-direction: column;
+}
+
+form {
+    max-width: 100%;
+    width: 600px;
+    margin: 0 auto;
+
+    .example-full-width {
+        width: 90%;
+    }
+
+    .chip_div {
+        p {
+            text-align: start;
+            font-weight: 400;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        mat-error {
+            text-align: start;
+            margin: 5px;
+
+        }
+
+        .example-full-width {
+            width: 100%;
+        }
+    }
+}

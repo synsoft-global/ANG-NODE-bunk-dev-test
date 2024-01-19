@@ -1,0 +1,8 @@
+<span [ngClass]="data.isSuccess === true ? 'mat_snackbar--success' : 'mat_snackbar--danger'" matSnackBarLabel>
+    <div fxLayout="row" class="main_div">
+        <mat-icon [ngClass]="data.isSuccess === true ? 'mat-icon--success' : 'mat-icon--failure'">
+            {{ data.isSuccess === true ? 'done' : 'close' }}
+        </mat-icon>
+        {{ data.message }}
+    </div>
+</span>

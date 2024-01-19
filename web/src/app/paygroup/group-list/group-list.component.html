@@ -1,0 +1,40 @@
+<div class="main_container">
+    <mat-card class="list-card">
+        <mat-card-content>
+            <div class="empty_div" *ngIf="payGroup === undefined || payGroup.length === 0 ">
+                No Data Found
+            </div>
+            <div class="search-results" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="500"
+                (scrolled)="onScroll()">
+                <div class="mainlist_div" *ngFor="let pay of payGroup ">
+                    <mat-card class="mainlist_card" (click)="openExpense(pay.groupId._id)">
+                        <p>{{pay.groupId.title}}</p>
+                        <p>{{pay.groupId.description}}</p>
+                    </mat-card>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+
+</div>
+
+<section>
+    <div *ngIf="!showAdd" class="example-button" align="end">
+        <button mat-fab class="button_fab" aria-label="Example icon button with a home icon" (click)="toggleadd()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div *ngIf="showAdd" class="example-button-row">
+        <!--Join a group using link ,will add this in future.
+             <button mat-mini-fab class="button_fab link" aria-label=" Example icon button with
+            a home icon" matTooltip="Join a paycount" matTooltipPosition="left" (click)="openDialog(1)">
+            <mat-icon>link</mat-icon>
+        </button> -->
+
+        <button mat-fab class="button_fab add" aria-label="Example icon button with a home icon"
+            matTooltip=" New paycount" matTooltipPosition="left" (click)="openDialog(2)">
+            <mat-icon>subject</mat-icon>
+        </button>
+    </div>
+</section>

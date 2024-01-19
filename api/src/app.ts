@@ -1,34 +1,71 @@
+import * as dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import bodyParser from 'body-parser';
 import compression from 'compression';
-import compressFilter from './utils/compressFilter.util';
-import config from './config/config';
-import payout from './routes/index';
+import morgan from 'morgan';
+// import rateLimit from 'express-rate-limit';
+import path from 'path';
+import connectDB from './dbConnection/db';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './swagger';
+
+
 const app: Express = express();
 
-app.use(
-  cors({
-    // origin is given a array if we want to have multiple origins later
-    origin: [config.cors_origin],
-    credentials: true,
-  })
-);
-// parse application/x-www-form-urlencoded
+// Load environment variables from .env file
+dotenv.config();
+
+// Enable CORS
+app.use(cors({ origin: '*', credentials: true }));
+
+// Set up rate limiter: limit each IP to 100 requests per 15 minutes
+// const limiter = rateLimit({
+//   windowMs: 15 * 60 * 1000, // 15 minutes
+//   max: 100, // limit each IP to 100 requests
+// });
+// app.use(limiter);
+
+// Set up Morgan for logging
+app.use(morgan('dev'));
+
+// Serve static files from the 'uploads' directory
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
+
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+// Set up views directory for EJS templates
+app.set('views', path.join(__dirname, 'views'));
+
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
+
+// Parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
+
+// Parse application/json
 app.use(bodyParser.json());
-// Helmet is used to secure this app by configuring the http-header
+
+// Helmet is used to secure the app by configuring the http-header
 app.use(helmet());
 
 // Compression is used to reduce the size of the response body
-app.use(compression({ filter: compressFilter }));
+app.use(compression());
 
+// Connect to the database
+connectDB();
+
+// Define a simple route
 app.get('/', (_req: Request, res: Response) => {
   res.send('Hello World!');
 });
 
-app.use('/', payout);
+// Include routes from the router
+import router from './routes/index';
+app.use('/', router);
+
 
 export default app;

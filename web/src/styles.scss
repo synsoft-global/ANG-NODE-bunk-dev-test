@@ -1,14 +1,213 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+html,
+body {
+  height: 100%;
+}
 
 body {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    margin: 0;
-    padding: 30px;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  margin: 0;
+  // padding: 30px;
+}
+
+.mat-mdc-card {
+  box-shadow: 0px 5px 30px 7px #1258932E !important;
+}
+
+.mdc-list-item {
+  flex-direction: row-reverse !important;
+}
+
+.mat-mdc-tab-body-wrapper {
+  position: sticky !important;
+}
+
+mat-error {
+  margin: 2px 0;
+}
+
+.header_div+.home_main {
+  margin-top: 70px;
+}
+
+//*********************Button css *********************//
+.button.secondary {
+  color: #fff !important;
+  background-color: var(--button-background-color, #615dfa) !important;
+  box-shadow: 4px 7px 12px #615dfa33;
+}
+
+.button.medium {
+  height: 54px;
+  line-height: 54px;
+  width: 100%;
+}
+
+.button_fab {
+  background-color: #98b9d9fc !important;
+  color: black !important;
+}
+
+.close-button {
+  float: right;
+  right: -24px;
+
+  .close-icon {
+    transition: 1s ease-in-out;
   }
-  
-  html, body {
-    height: 100%;
+
+  .close-icon:hover {
+    transform: rotate(180deg);
   }
-  
+}
+
+
+
+//*********************Form css *********************//
+.form-box-title {
+  font-size: 1.625rem;
+  text-align: center;
+}
+
+.form-card {
+  width: 50%;
+  text-align: center;
+  margin: 0 auto;
+
+  .form-row {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    margin: 30px auto;
+    width: 65%;
+    gap: 10px;
+  }
+}
+
+.form-text {
+  font-size: .875rem;
+  line-height: 1.7142857143em;
+  font-weight: 500;
+  margin-top: 15px !important;
+
+  a {
+    color: var(--cyan-dark, #00c7d9);
+    font-weight: 500;
+  }
+}
+
+//*********************Snackbar css *********************//
+
+.mat_snackbar--success {
+  background-color: #FFFFFF;
+  text-align: center;
+  color: black !important;
+}
+
+.mat-icon--failure {
+  color: #fafafa !important;
+  width: 26px !important;
+  background: #E70013;
+  border: 1px solid #E70013;
+  border-radius: 50%;
+}
+
+.mat-icon--success {
+  color: white !important;
+  background: green !important;
+  border: 1px solid;
+  border-radius: 12px;
+}
+
+.mat_snackbar--danger {
+  background-color: #FFFFFF;
+  text-align: center;
+  color: black !important;
+}
+
+.mat-snack-bar-container {
+  max-width: 150px !important;
+}
+
+.mdc-snackbar__surface {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+//*********************Loader css *********************//
+.mdc-circular-progress__indeterminate-container {
+  width: 50px !important;
+}
+
+.loader-container .mat-mdc-progress-spinner::before {
+  background: #00000060;
+}
+
+.loader .mat-mdc-progress-spinner::before {
+  background: #ffffff;
+}
+
+.mat-mdc-progress-spinner .mdc-circular-progress__determinate-circle,
+.mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: #3d91b3 !important;
+
+}
+
+.mat-mdc-progress-spinner::before {
+  content: '';
+  width: 100%;
+  height: 100%;
+}
+
+.mat-mdc-progress-spinner {
+  position: fixed !important;
+  transform: translate(-50%, -50%) !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 99;
+}
+
+//*********************CheckBox css *********************//
+
+.balance_item .mdc-list-item__primary-text {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center !important;
+}
+
+.mdc-list-item__primary-text:not(.balance_item .mdc-list-item__primary-text) {
+  display: flex !important;
+  flex-direction: row;
+  justify-content: space-between !important;
+}
+
+
+
+.mat-mdc-list-base {
+  width: 90%;
+}
+
+
+
+.mat-mdc-list-option.mat-accent {
+  --mdc-checkbox-selected-checkmark-color: #fff;
+  --mdc-checkbox-selected-focus-icon-color: #98b9d9fc;
+  --mdc-checkbox-selected-hover-icon-color: #98b9d9fc;
+  --mdc-checkbox-selected-icon-color: #98b9d9fc;
+  --mdc-checkbox-selected-pressed-icon-color: #98b9d9fc !important;
+}
+
+.mat-accent .mdc-list-item__end {
+  --mdc-radio-selected-focus-icon-color: #98b9d9fc;
+  --mdc-radio-selected-hover-icon-color: #98b9d9fc;
+  --mdc-radio-selected-icon-color: #98b9d9fc;
+  --mdc-radio-selected-pressed-icon-color: #98b9d9fc;
+
+}
