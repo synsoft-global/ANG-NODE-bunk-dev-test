@@ -188,7 +188,8 @@ export class ExpenseListComponent {
       data.groupId = this.groupId;
       this._payService.invitFriend(data).subscribe({
         next: (res: any) => {
-          this._commonService.showSnackbar(res.message, true, this.durationInSeconds)
+          this._commonService.showSnackbar(res.message, true, this.durationInSeconds);
+
         }, error: (error) => {
           this._commonService.showSnackbar(error.error.error ? error.error.error : "Something went wrong", false, this.durationInSeconds);
         }

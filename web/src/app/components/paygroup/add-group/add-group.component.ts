@@ -30,6 +30,7 @@ export class AddGroupComponent {
   durationInSeconds = 1;
   details: any;
   selectedCategory: any;
+  userData: any;
   myName: any;
   constructor(private _fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public data: MatDialogContent,
@@ -56,11 +57,25 @@ export class AddGroupComponent {
     this.groupId = this.data;
     this.getCountry();
     this.getCategory();
+    this.userData = this._localService.get('userData');
+    this.userData = JSON.parse(this.userData);
+    if (!this.groupId) {
+
+      this.participantsList.push({ "name": this.userData.userName, "id": this.userData._id, isGroupJoin: true });
+      console.log('  this.participantsList: ', this.participantsList);
+
+    }
     if (this.groupId) {
       this.getGroupDataById();
     }
   }
 
+
+  // onChange(event: any) {
+  //   console.log('event: ', event.target.value);
+  //   this.myName = event.target.value;
+
+  // }
 
   getCountry() {
     this._authService.countryList().subscribe({
@@ -110,29 +125,29 @@ export class AddGroupComponent {
   }
 
 
-  editItem(index: number) {
-    this.edit = index === 0;
-    if (this.edit) {
-      const nameControl = this.participantsList[index];
-      this.participantsList[index] = nameControl;
-    }
-  }
+  // editItem(index: number) {
+  //   this.edit = index === 0;
+  //   if (this.edit) {
+  //     const nameControl = this.participantsList[index];
+  //     this.participantsList[index] = nameControl;
+  //   }
+  // }
 
 
-  saveEdit() {
-    const editedValue = this.addForm.get('participants')!.value;
-    if (this.groupId) {
-      const updatedParticipant = {
-        ...this.participantsList[0],
-        name: editedValue
-      };
-      this.participantsList[0] = updatedParticipant;
-    }
-    else {
-      this.participantsList[0] = this.groupId ? { 'name': editedValue } : editedValue
-    }
-    this.edit = false;
-  }
+  // saveEdit() {
+  //   const editedValue = this.myName
+  //   if (this.groupId) {
+  //     const updatedParticipant = {
+  //       ...this.participantsList[0],
+  //       name: editedValue
+  //     };
+  //     this.participantsList[0] = updatedParticipant;
+  //   }
+  //   else {
+  //     this.participantsList[0] = { "name": this.myName, "id": this.userData._id, isGroupJoin: true };
+  //   }
+  //   this.edit = false;
+  // }
 
 
   getGroupDataById() {
@@ -153,11 +168,12 @@ export class AddGroupComponent {
 
 
   onSubmit() {
-    if (this.groupId) {
-      this.updateGroup(this.groupId);
-    } else {
-      this.addForm.patchValue({ participants: this.participantsList })
-      if (this.addForm.valid) {
+
+    this.addForm.patchValue({ participants: this.participantsList })
+    if (this.addForm.valid) {
+      if (this.groupId) {
+        this.updateGroup(this.groupId);
+      } else {
         let data = this.addForm.value;
         this.participant?.reset();
         this._payService.addPaygroup(data).subscribe({
