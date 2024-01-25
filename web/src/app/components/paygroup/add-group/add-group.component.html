@@ -47,20 +47,21 @@
             <div *ngIf="participantsList && participantsList.length > 0">
                 <div *ngFor="let name of participantsList ; let i = index">
 
-                    <p style="cursor: pointer;" (click)="editItem(i)"> {{groupId ? name.name : name }}
+                    <p style="cursor: pointer;"> {{groupId || i == 0 ? name.name : name }}
                         <button matSuffix *ngIf="i > 0" matSuffix mat-icon-button (click)="removeItem(i)">
                             <mat-icon>clear</mat-icon>
                         </button>
                     </p>
-                    <div *ngIf="edit && i === 0">
+                    <!-- <div *ngIf="edit && i === 0">
                         <mat-form-field class="example-full-width">
-                            <input matInput formControlName="participants">
-                            <button matSuffix mat-raised-button color="primary" (click)="saveEdit()"
-                                [disabled]="!addForm.get('participants')?.valid">Save</button>
+                            <input matInput value="{{name.name}}" (input)="onChange($event)">
+                            <button matSuffix mat-raised-button color="primary" [disabled]="!myName"
+                                (click)="saveEdit()">Save</button>
+
                             <mat-error
                                 *ngIf="addForm.controls['participants'].hasError('required')">{{addFormError.participent.required}}</mat-error>
                         </mat-form-field>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
@@ -69,8 +70,6 @@
                     formControlName="participants" (keydown.enter)="onEnter($event)">
                 <button matSuffix mat-raised-button color="primary" (click)="addItem()"
                     [disabled]="!addForm.get('participants')?.valid">Add </button>
-                <!-- <mat-error
-                    *ngIf="addForm.controls['participants'].hasError('required')">{{addFormError.participent.required}}</mat-error> -->
             </mat-form-field>
 
         </div>

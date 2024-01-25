@@ -47,15 +47,16 @@ export class GroupListComponent {
         this.payGroup = [...this.payGroup, ...res.data.data];
         this.totalRecords = res.data.pagination.totalRecords;
       }, error: (err) => {
-        console.log('err: ', err);
         this._commonService.showSnackbar(err.error.message ? err.error.message : "Something went wrong", false, this.durationInSeconds);
       }
-    })
+    });
   }
+
 
   toggleadd() {
     this.showAdd = !this.showAdd
   }
+
 
   openDialog(id: number) {
     this.showAdd = false;
